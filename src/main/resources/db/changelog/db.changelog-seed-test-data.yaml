@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: seed-test-data
+      author: stu-p
+      changes:
+        - loadUpdateData:
+            encoding: UTF-8
+            file: db/data/products.csv
+            onlyUpdate: false
+            primaryKey: id
+            quotchar: ''''
+            separator: ','
+            schemaName: public
+            tableName: product

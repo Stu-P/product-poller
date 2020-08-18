@@ -1,0 +1,17 @@
+<databaseChangeLog>
+    <changeSet
+            author="stu"
+            id="seed-test-data"
+            context="test or local">
+        <loadUpdateData
+                encoding="UTF-8"
+                file="db/data/products.csv"
+                onlyUpdate="false"
+                primaryKey="id"
+                quotchar="'"
+                separator=","
+                tableName="product">
+        </loadUpdateData>
+    </changeSet>
+</databaseChangeLog>
+
