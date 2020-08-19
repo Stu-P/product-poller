@@ -1,5 +1,8 @@
 package stu.learning.kafka.productpoller.event;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
@@ -7,11 +10,17 @@ import java.util.UUID;
 public class ProductPriceChangedEvent extends BaseEvent {
 
     private final String productId;
-    private final BigDecimal price;
+    private final BigDecimal newPrice;
 
-    public ProductPriceChangedEvent( String productId, BigDecimal price, UUID eventId, Instant timeStamp) {
-        super(eventId, timeStamp);
-        this.price = price;
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public ProductPriceChangedEvent(
+            @JsonProperty("productId") String productId,
+            @JsonProperty("price") BigDecimal newPrice,
+            @JsonProperty("correlationId") UUID correlationId,
+            @JsonProperty("timeStamp") Instant timeStamp
+    ) {
+        super(correlationId, timeStamp);
+        this.newPrice = newPrice;
         this.productId=productId;
     }
 
@@ -20,8 +29,8 @@ public class ProductPriceChangedEvent extends BaseEvent {
         return productId;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getNewPrice() {
+        return newPrice;
     }
     //endregion
 
@@ -29,7 +38,7 @@ public class ProductPriceChangedEvent extends BaseEvent {
     public String toString() {
         return "ProductPriceChangedEvent{" +
                 "productId='" + productId + '\'' +
-                ", price=" + price +
+                ", price=" + newPrice +
                 ", correlationId=" + correlationId +
                 ", timeStamp=" + timeStamp +
                 '}';

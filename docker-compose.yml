@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  productpoller.db:
+    image: postgres
+    ports:
+      - "5433"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=L0calpaS5
+      - POSTGRES_DB=products
+    command: -p 5433
+    networks:
+      - kafka_network
+
+  product-poller:
+    image: product-poller:${TAG:-latest}
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - kafka_network
+    depends_on:
+      - productpoller.db
+
+networks:
+  kafka_network:
+    external: true
